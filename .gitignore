@@ -3,3 +3,4 @@
 secrets.ini
 .idea/
 .vscode/
+__pycache__/
