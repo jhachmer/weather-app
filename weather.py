@@ -61,17 +61,17 @@ def build_weather_query(city_input, imperial=False):
     return url
 
 
-def get_weather_data(query_url):
+def get_weather_data(query_url_input):
     """Makes an API request to a URL and returns the data as a Python object.
 
     Args:
-        query_url (str): URL formatted for OpenWeather's city name endpoint
+        query_url_input (str): URL formatted for OpenWeather's city name endpoint
 
     Returns:
         dict: Weather information for a specific city
     """
     try:
-        response = request.urlopen(query_url)
+        response = request.urlopen(query_url_input)
     except error.HTTPError as http_error:
         if http_error.code == 401:
             sys.exit("Access denied. Check your API key")
@@ -83,23 +83,23 @@ def get_weather_data(query_url):
     data = response.read()
     try:
         return json.loads(data)
-    except:
+    except ValueError:
         sys.exit("Couldn't read the server response")
 
 
-def display_weather_info(weather_data, imperial=False):
+def display_weather_info(weather_data_input, imperial=False):
     """Prints formatted weather information about a city.
 
     Args:
-        weather_data (dict): API response from OpenWeather by city name
+        weather_data_input (dict): API response from OpenWeather by city name
         imperial (bool): Whether to use imperial units for temperature
 
     More information at https://openweathermap.org/current#name
     """
-    city = weather_data["name"]
-    weather_id = weather_data["weather"][0]["id"]
-    weather_description = weather_data["weather"][0]["description"]
-    temperature = weather_data["main"]["temp"]
+    city = weather_data_input["name"]
+    weather_id = weather_data_input["weather"][0]["id"]
+    weather_description = weather_data_input["weather"][0]["description"]
+    temperature = weather_data_input["main"]["temp"]
 
     style.change_color(style.REVERSE)
     print(f"{city:^{style.PADDING}}", end="")
